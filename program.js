@@ -1,6 +1,6 @@
 document.writeln('Hello, world!');
 
-divider(20);
+divider(1);
 
 var empty_object = {};
 
@@ -17,11 +17,11 @@ document.writeln(msThang.first_name);
 document.writeln(msThang.last_name);
 
 // for default vals, use ||
-// Basically saying undefined, or "blah"
+// Basically saying undefined or "blah"
 document.writeln(msThang.middle_name || "default");
 document.writeln(msThang['middle_name'] || "default");
 
-divider('22');
+divider('2');
 
 // update
 
@@ -31,7 +31,7 @@ msThang.last_name = "Elliot";
 document.writeln(msThang['first-name']);
 document.writeln(msThang.last_name);
 
-divider(23);
+divider(3);
 
 // 10_30 (Programming languages example)
 document.writeln("a".charCodeAt(0));
@@ -44,24 +44,19 @@ function divider(section){
 
 // ASCII code
 
-
-
-// Freeze --- c++ const?
+// Freeze --- just like c++ const
 // From the Javascript: the difinitive guide
-
 Object.freeze(msThang);
 
 msThang['first-name'] = 'SomeChange';
 document.writeln(msThang['first-name']);
 document.writeln('Wow. No change o___o');
 
-// Floating point test
+//---------------------Floating point test---------------------
 
 var num = 1000000000;
-
 for (var i = 0; i<900000; i++)
 	num -= .5;
-
 document.writeln(num);
 
 //---------------------Exceptions--------------------
@@ -119,126 +114,137 @@ document.writeln(array[4294967297])
 	}
 
 //--------------Closures---------------
-	var candy = (function () {  // Anonymous function 1
+var candy = (function () {  // Anonymous function 1
 
-		var flavor = "Lime";
+	var flavor = "Lime";
 
-		return {
-			changeFlavor: function (newFlavor) { // Anonymous function 2
-				flavor = typeof newFlavor === 'string' ? newFlavor : "Lime";
-			},
-			getFlavor: function () { // Anonymous function 3
-				return flavor;
-			}
+	return {
+		changeFlavor: function (newFlavor) { // Anonymous function 2
+			flavor = typeof newFlavor === 'string' ? newFlavor : "Lime";
+		},
+		getFlavor: function () { // Anonymous function 3
+			return flavor;
+		}
+	};
+}());
 
-		};
-	}());
-
-	document.writeln(candy.getFlavor()); // Prints "Lime"
-	candy.changeFlavor("Cherry");
-	candy.flavor = "Chocolate";
-	document.writeln(candy.getFlavor()); // Prints "Cherry"
+document.writeln(candy.getFlavor()); // Prints "Lime"
+candy.changeFlavor("Cherry");
+candy.flavor = "Chocolate";
+document.writeln(candy.getFlavor()); // Prints "Cherry"
 
 //----------Static Scope--------------
-	function DiningRoom()
+function DiningRoom()
+{
+	var NumberOfChefs = 5;
+
+	function Kitchen()
 	{
-		var NumberOfChefs = 5;
-
-		function Kitchen()
-		{
-			var NumberOfChefs = 1;
-			PrintNumberOfChefs(); // Prints 5
-		}
-
-		function LivingRoom()
-		{
-			var number = NumberOfChefs;
-			alert(number);
-		}
+		var NumberOfChefs = 1;
+		PrintNumberOfChefs(); // Prints 5
 	}
+
+	function LivingRoom()
+	{
+		var number = NumberOfChefs;
+		alert(number);
+	}
+}
 
 //---------Parameter passing----------
-	var person = { lastname:"Center", customGreeting:"Howdy!!!" };
+// Pass-by-sharing
+var person = { lastname:"Center", customGreeting:"Howdy!!!" };
 
-	SimpleGreet(person['lastname'], person['customGreeting']);
-	document.writeln(person['lastname']); // Last name "Center"
+SimpleGreet(person['lastname'], person['customGreeting']);
+document.writeln(person['lastname']); // Last name "Center"
 
-	CompositeGreet(person);
-	document.writeln(person['lastname']); // Last name "Changed"
+CompositeGreet(person);
+document.writeln(person['lastname']); // Last name "Changed"
 
-	function SimpleGreet(name,phrase) {
-		document.writeln("Hello " + name + ". " + phrase);
-		name = "Changed";
-	}
+function SimpleGreet(name,phrase) {
+	document.writeln("Hello " + name + ". " + phrase);
+	name = "Changed";
+}
 
-	function CompositeGreet(person) {
-		document.writeln
-		(
-			"Hello " + person['lastname'] + ". " + person['customGreeting']
-		);
-		person['lastname'] = "Changed Name";
-	}
+function CompositeGreet(person) {
+	document.writeln
+	(
+		"Hello " + person['lastname'] + ". " + person['customGreeting']
+	);
+	person['lastname'] = "Changed Name";
+}
 
 //---------Exceptions--------------
-	var try_declareCoffeTime = function () {
-		try {
-			timeToDrinkingCoffee("Yes!!!");
-		} catch (error) {
-			document.writeln(error.name + ": " + error.message);
-		} finally {
-			document.writeln("Nice try!!!");
-		}
+var try_declareCoffeTime = function () {
+	try {
+		timeToDrinkingCoffee("Yes!!!");
+	} catch (error) {
+		document.writeln(error.name + ": " + error.message);
+	} finally {
+		document.writeln("Nice try!!!");
 	}
+}
 
-	var timeToDrinkingCoffee = function(boolVal) {
-		if (typeof boolVal !== 'boolean') {
-			throw {
-				name: 'Type error',
-				message: 'Do not joke around with coffee time!!!'
-			};
-		}
-		if (boolVal === true){
-			document.writeln('It is coffee time!!!');
-		} else {
-			document.writeln('Too bad! It is still coffee time!!!');
-		}
+var timeToDrinkingCoffee = function(boolVal) {
+	if (typeof boolVal !== 'boolean') {
+		throw {
+			name: 'Type error',
+			message: 'Do not joke around with coffee time!!!'
+		};
 	}
+	if (boolVal === true){
+		document.writeln('It is coffee time!!!');
+	} else {
+		document.writeln('Too bad! It is still coffee time!!!');
+	}
+}
 
-	try_declareCoffeTime();
+try_declareCoffeTime();
 
 //---------Inheritance------------
-	// inherit() returns a newly created object that inherits properties from the
-	// prototype object p. It uses the ECMAScript 5 function Object.create() if
-	// it is defined, and otherwise falls back to an older technique.
-	function inherit(prototype) {
-		// prototype must be a non-null object
-		if (prototype == null) throw TypeError();
-		// If Object.create() is defined
-		if (Object.create)
-			// then just use it.
-			return Object.create(prototype);
-		// Otherwise do some more type checking
-		var type = typeof prototype;
-		if (type !== "object" && type !== "function") 
-	       throw TypeError();
-		// Define a dummy constructor function.
-		function child() {};
-		// Set its prototype property to prototype passed in.
-		child.prototype = property;
-		return new child();
-	}
-	var maleFamilyMember = {};           
-	maleFamilyMember.backspasms = true;  
-	var dad = inherit(maleFamilyMember); 
-	dad.badknees = true;         
-	var son = inherit(dad);      
-	son.badbreath = true;        
-	maleFamilyMember.backspasms = false; 
-	if (son.backspasms) {
-		document.writeln("He's cured!"); // Printed
-	} else {                             
-		document.writeln("Illigitimate child.");
-	}
+// inherit() returns a newly created object that inherits properties from the
+// prototype object p. It uses the ECMAScript 5 function Object.create() if
+// it is defined, and otherwise falls back to an older technique.
+function inherit(prototype) {
+
+    // prototype must be a non-null object
+    if (prototype == null) throw TypeError();
+    
+    // If Object.create() is defined
+    if (Object.create)
+        // then just use it.
+        return Object.create(prototype);
+    
+    // Otherwise do some more type checking
+    var type = typeof prototype;
+    if (type !== "object" && type !== "function") 
+       throw TypeError();
+    
+    // Define a dummy constructor function.
+    function child() {};
+    
+    // Set its prototype property to prototype passed in.
+    child.prototype = property;
+    
+    return new child();
+}
+
+var maleFamilyMember = {};
+maleFamilyMember.backspasms = true;
+
+var dad = inherit(maleFamilyMember);
+dad.badknees = true;         
+
+var son = inherit(dad);
+son.badbreath = true;
+
+maleFamilyMember.backspasms = false;
+
+if (!son.backspasms) {
+    document.writeln("He's cured!"); // Printed
+} else {                             
+    document.writeln("Illigitimate child.");
+}
 
 
 //person inherits object methods from Object.prototype
@@ -249,85 +255,84 @@ document.writeln(array[4294967297])
 //and has an own property z.
 //grandDad back spasms property is changed
 // still exists
+var secondSon = inherit(dad);
 
-	var secondSon = inherit(dad);
-
-	if (son.constructor === secondSon.constructor)
-		document.writeln("They are related!!!");
-	else
-		document.writeln("Uh oh.");
+if (son.constructor === secondSon.constructor)
+	document.writeln("They are related!!!"); // Definitely prints this
+else
+	document.writeln("Uh oh.");
 //-------------------Concurrency using XHR object--------------------------
-	function orderPuppyFunction() {
+function orderPuppyFunction() {
 
-	    // Retreive the value of web form
-	    var ID = document.getElementById("puppyID_textbox").value;
+    // Retreive the value of web form
+    var ID = document.getElementById("puppyID_textbox").value;
 
-	    // start AJAX request
-	    var xmlhttp = new XMLHttpRequest();
+    // start AJAX request
+    var xmlhttp = new XMLHttpRequest();
 
-	    // create callback function that listens and invokes 
-	    // the anonymous function with data it has received
-	    xmlhttp.onreadystatechange = function () {
-	    	
-    	  // The xmlhttp request allows messages to be passed from
-    	  // the program and the object. 
-          if ((xmlhttp.readyState === 4) && (xmlhttp.status === 200)) {
+    // create callback function that listens and invokes 
+    // the anonymous function with data it has received
+    xmlhttp.onreadystatechange = function () {
+    	
+	  // The xmlhttp request allows messages to be passed from
+	  // the program and the object. 
+      if ((xmlhttp.readyState === 4) && (xmlhttp.status === 200)) {
 
-            var puppyInfo = xmlhttp.responseText.split(",");
-            document.getElementById('breed_field').value = puppyInfo[0];
-            document.getElementById('age_field').value = puppyInfo[1];
-            document.getElementById('eyeColor_field').value = puppyInfo[2];
-            document.getElementById('weight_field').value = puppyInfo[3];
-	        } 
-	    };
+        var puppyInfo = xmlhttp.responseText.split(",");
+        document.getElementById('breed_field').value = puppyInfo[0];
+        document.getElementById('age_field').value = puppyInfo[1];
+        document.getElementById('eyeColor_field').value = puppyInfo[2];
+        document.getElementById('weight_field').value = puppyInfo[3];
+        } 
+    };
 
-	    xmlhttp.open("GET","lookupPuppyInfo.php?num="+ID,true);
-	    // this is for "Get" 
-	    // since parameters are already passed into open()
-	    xmlhttp.send(null);
+    xmlhttp.open("GET","lookupPuppyInfo.php?num="+ID,true);
+    // this is for "Get" 
+    // since parameters are already passed into open()
+    xmlhttp.send(null);
 
-	}
+}
 //-------------------Recursion--------------------------
-	var tailFactorial = function tailFactorial(number, result) {
-		result = result || 1;
-		if (number < 2) {
-			return result;
-		}
-		return tailFactorial(number - 1, result * number);
-	};
-
-	var memo = [];
-	function memoFactorial (number) {
-		if (number == 0 || number == 1)
-			return 1;
-		if (memo[number] > 0)
-			return memo[number];
-		return memo[number] = memoFactorial(number-1) * number;
+var tailFactorial = function tailFactorial(number, result) {
+	result = result || 1;
+	if (number < 2) {
+		return result;
 	}
+	return tailFactorial(number - 1, result * number);
+};
+
+var memo = [];
+function memoFactorial (number) {
+	if (number == 0 || number == 1)
+		return 1;
+	if (memo[number] > 0)
+		return memo[number];
+	return memo[number] = memoFactorial(number-1) * number;
+}
 
 document.writeln(tailFactorial(5,0));
 document.writeln(memoFactorial(5));
 
 //--------------Closures---------------
-	var candy = (function () {  // Anonymous function 1
+var candy = (function () {  // Anonymous function 1
 
-		var flavor = "Lime";
+	var flavor = "Lime";
 
-		return {
-			changeFlavor: function (newFlavor) { // Anonymous function 2
-				flavor = typeof newFlavor === 'string' ? newFlavor : "Lime";
-			},
-			getFlavor: function () { // Anonymous function 3
-				return flavor;
-			}
+	return {
+		changeFlavor: function (newFlavor) { // Anonymous function 2
+			flavor = typeof newFlavor === 'string' ? newFlavor : "Lime";
+		},
+		getFlavor: function () { // Anonymous function 3
+			return flavor;
+		}
 
-		};
-	}());
+	};
+}());
 
-	document.writeln(candy.getFlavor()); // Prints "Lime"
-	candy.changeFlavor("Cherry");
-	candy.flavor = "Chocolate";
-	document.writeln(candy.getFlavor()); // Prints "Cherry"
+document.writeln(candy.getFlavor()); // Prints "Lime"
+candy.changeFlavor("Cherry");
+candy.flavor = "Chocolate";
+document.writeln(candy.getFlavor()); // Prints "Cherry"
 
 function makeAdder (x) {
 
